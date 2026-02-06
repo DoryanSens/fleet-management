@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -74,7 +73,6 @@ class TractorServiceTest {
     void testFindByPower(LoadLevel power) {
         // Given
         List<Tractor> expected = new ArrayList<>();
-        ;
 
         when(tractorRepositoryMock.findByPower(any(LoadLevel.class)))
                 .thenAnswer(call -> {
@@ -124,13 +122,12 @@ class TractorServiceTest {
 
     @ParameterizedTest
     @MethodSource("updateParameters")
-    @Disabled
+   // @Disabled
     void testUpdateIsOk(Tractor paramTractor, Tractor databaseTractor, Tractor expectedSavedTractor) {
         // Given
         when(tractorRepositoryMock.findById(anyLong()))
                 .thenReturn(Optional.of(databaseTractor));
         when(tractorRepositoryMock.save(any(Tractor.class)))
-        // FIXME: do not return the argument directly but rather a new reference
                 .thenAnswer(call -> call.getArgument(0, Tractor.class));
 
         // When
@@ -141,13 +138,7 @@ class TractorServiceTest {
     }
     
     static Stream<Arguments> updateParameters(){
-        var databaseTractor = new Tractor();
-        
-        databaseTractor.setId(1L);
-        databaseTractor.setName("Renault Blanc");
-        databaseTractor.setPower(LoadLevel.MEDIUM);
-        
-        
+
         var paramTractor1 = new Tractor();
         var paramTractor2 = new Tractor();
         var paramTractor3 = new Tractor();
@@ -184,10 +175,10 @@ class TractorServiceTest {
         
         
         return Stream.of(
-                Arguments.of(paramTractor1, databaseTractor, expectedSavedTractor1),
-                Arguments.of(paramTractor2, databaseTractor, expectedSavedTractor2),
-                Arguments.of(paramTractor3, databaseTractor, expectedSavedTractor3),
-                Arguments.of(paramTractor4, databaseTractor, expectedSavedTractor4) );
+                Arguments.of(paramTractor1, new Tractor(1L,"Renault Blanc", LoadLevel.MEDIUM), expectedSavedTractor1),
+                Arguments.of(paramTractor2, new Tractor(1L,"Renault Blanc", LoadLevel.MEDIUM), expectedSavedTractor2),
+                Arguments.of(paramTractor3, new Tractor(1L,"Renault Blanc", LoadLevel.MEDIUM), expectedSavedTractor3),
+                Arguments.of(paramTractor4, new Tractor(1L,"Renault Blanc", LoadLevel.MEDIUM), expectedSavedTractor4));
     }
 
     private static Stream<Tractor> tractors() {

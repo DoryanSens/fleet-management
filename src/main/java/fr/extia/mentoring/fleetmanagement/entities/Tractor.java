@@ -23,6 +23,16 @@ public class Tractor {
     @Enumerated(EnumType.STRING)
     private LoadLevel power;
 
+    public Tractor(long id, String name, LoadLevel power) {
+        this.id = id;
+        this.name = name;
+        this.power = power;
+    }
+
+    public Tractor() {
+        //TODO Auto-generated constructor stub
+    }
+
     public Long getId() {
         return id;
     }
